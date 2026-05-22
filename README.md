@@ -1,0 +1,2 @@
+# ingas-reporti
+ რეპორტინგი
