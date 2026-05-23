@@ -1,0 +1,62 @@
+<div class="page-header">
+  <h1>⚙️ ადმინ პანელი</h1>
+  <p>სისტემის მართვა</p>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">👥</div>
+    <div class="stat-value"><%= totalUsers %></div>
+    <div class="stat-label">თანამშრომელი</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">❓</div>
+    <div class="stat-value"><%= totalQuestions %></div>
+    <div class="stat-label">კითხვა</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">✍️</div>
+    <div class="stat-value"><%= todayAnswers %></div>
+    <div class="stat-label">დღეს უპასუხა</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon"><%= todayQuiz ? '✅' : '❌' %></div>
+    <div class="stat-value"><%= todayQuiz ? 'დაყენდა' : 'არ არის' %></div>
+    <div class="stat-label">დღის კითხვა</div>
+  </div>
+</div>
+
+<% if (todayQuiz) { %>
+<div class="card today-quiz-preview">
+  <strong>📌 დღის კითხვა (<%= today %>):</strong>
+  <p><%- todayQuiz.question_text %></p>
+</div>
+<% } %>
+
+<div class="admin-nav-grid">
+  <a href="/admin/daily" class="admin-nav-card">
+    <span class="anc-icon">📅</span>
+    <span class="anc-title">დღის კითხვა</span>
+    <span class="anc-desc">დღეს გამოსაქვეყნებელი კითხვის არჩევა</span>
+  </a>
+  <a href="/admin/questions" class="admin-nav-card">
+    <span class="anc-icon">📝</span>
+    <span class="anc-title">კითხვები</span>
+    <span class="anc-desc">კითხვების შექმნა და მართვა</span>
+  </a>
+  <a href="/admin/results" class="admin-nav-card">
+    <span class="anc-icon">📊</span>
+    <span class="anc-title">შედეგები</span>
+    <span class="anc-desc">დღის და თვის შედეგები</span>
+  </a>
+  <a href="/admin/users" class="admin-nav-card">
+    <span class="anc-icon">👤</span>
+    <span class="anc-title">მომხმარებლები</span>
+    <span class="anc-desc">წვდომებისა და როლების მართვა</span>
+  </a>
+  <a href="/admin/profile-questions" class="admin-nav-card">
+    <span class="anc-icon">🗂️</span>
+    <span class="anc-title">პროფილის კითხვები</span>
+    <span class="anc-desc">პირადი კითხვარის კონფიგურაცია</span>
+  </a>
+</div>

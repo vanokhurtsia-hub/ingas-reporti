@@ -1,0 +1,124 @@
+<div class="page-header">
+  <h1>გამარჯობა, <%= session.userName %>! 👋</h1>
+  <p class="date-display"><%= new Date().toLocaleDateString('ka-GE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+</div>
+
+<div class="dashboard-grid">
+
+  <!-- Daily Quiz Section -->
+  <div class="card quiz-card">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <h2>დღის კითხვა</h2>
+    </div>
+
+    <% if (!daily) { %>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>დღეს ჯერ კითხვა არ არის განთავსებული</p>
+        <% if (session.role === 'admin') { %>
+          <a href="/admin/daily" class="btn btn-primary">კითხვის დამატება</a>
+        <% } %>
+      </div>
+    <% } else if (userAnswer) { %>
+      <div class="question-answered">
+        <p class="question-text"><%- daily.question_text %></p>
+        <div class="answer-result <%= userAnswer.is_correct ? 'correct' : 'wrong' %>">
+          <span class="result-icon"><%= userAnswer.is_correct ? '✅' : '❌' %></span>
+          <div>
+            <strong><%= userAnswer.is_correct ? 'სწორი პასუხი!' : 'არასწორი პასუხი' %></strong>
+            <p>თქვენი პასუხი: <em><%= userAnswer.option_text %></em></p>
+          </div>
+        </div>
+        <% if (todayStats) { %>
+        <div class="today-stats">
+          <span>📊 <%= todayStats.total %> თანამშრომელმა უპასუხა • <%= todayStats.correct %> სწორად</span>
+        </div>
+        <% } %>
+      </div>
+    <% } else { %>
+      <p class="question-text"><%- daily.question_text %></p>
+      <form method="POST" action="/quiz/answer" class="answer-form">
+        <input type="hidden" name="daily_quiz_id" value="<%= daily.daily_id %>">
+        <div class="options-list">
+          <% for (const opt of options) { %>
+            <label class="option-label">
+              <input type="radio" name="option_id" value="<%= opt.id %>" required>
+              <span class="option-text"><%= opt.option_text %></span>
+            </label>
+          <% } %>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">პასუხის გაგზავნა</button>
+      </form>
+    <% } %>
+  </div>
+
+  <!-- My Score -->
+  <div class="card score-card">
+    <div class="card-header">
+      <span class="card-icon">⭐</span>
+      <h2>ჩემი ქულები</h2>
+    </div>
+    <div class="score-display">
+      <div class="score-big"><%= myMonthlyScore %></div>
+      <div class="score-label">ქულა ამ თვეში</div>
+    </div>
+  </div>
+
+  <!-- Daily Leaderboard -->
+  <div class="card leaderboard-card">
+    <div class="card-header">
+      <span class="card-icon">🏅</span>
+      <h2>დღის ლიდერები</h2>
+    </div>
+    <% if (dailyLeaderboard.length === 0) { %>
+      <p class="empty-msg">ჯერ არ გაუცია პასუხი არავის</p>
+    <% } else { %>
+      <ol class="leaderboard-list">
+        <% dailyLeaderboard.forEach((entry, i) => { %>
+          <li class="leaderboard-item <%= i === 0 ? 'first' : i === 1 ? 'second' : i === 2 ? 'third' : '' %>">
+            <span class="rank-badge">
+              <% if (i === 0) { %>🥇<% } else if (i === 1) { %>🥈<% } else if (i === 2) { %>🥉<% } else { %><%= i+1 %><% } %>
+            </span>
+            <span class="player-name"><%= entry.name %></span>
+            <span class="player-points"><%= entry.points %> ✓</span>
+          </li>
+        <% }) %>
+      </ol>
+    <% } %>
+  </div>
+
+  <!-- Monthly Leaderboard -->
+  <div class="card leaderboard-card">
+    <div class="card-header">
+      <span class="card-icon">🏆</span>
+      <h2>თვის რეიტინგი</h2>
+    </div>
+    <% if (monthlyLeaderboard.length === 0) { %>
+      <p class="empty-msg">ამ თვეში ჯერ ქულები არ არის</p>
+    <% } else { %>
+      <% if (monthlyLeaderboard[0]) { %>
+        <div class="employee-of-month">
+          <span class="eom-crown">👑</span>
+          <div>
+            <div class="eom-label">თვის საუკეთესო</div>
+            <div class="eom-name"><%= monthlyLeaderboard[0].name %></div>
+            <div class="eom-points"><%= monthlyLeaderboard[0].points %> ქულა</div>
+          </div>
+        </div>
+      <% } %>
+      <ol class="leaderboard-list">
+        <% monthlyLeaderboard.forEach((entry, i) => { %>
+          <li class="leaderboard-item <%= i === 0 ? 'first' : i === 1 ? 'second' : i === 2 ? 'third' : '' %>">
+            <span class="rank-badge">
+              <% if (i === 0) { %>🥇<% } else if (i === 1) { %>🥈<% } else if (i === 2) { %>🥉<% } else { %><%= i+1 %><% } %>
+            </span>
+            <span class="player-name"><%= entry.name %></span>
+            <span class="player-points"><%= entry.points %> ქ.</span>
+          </li>
+        <% }) %>
+      </ol>
+    <% } %>
+  </div>
+
+</div>

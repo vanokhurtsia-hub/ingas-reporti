@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>📝 კითხვების მართვა</h1>
+  <a href="/admin/questions/new" class="btn btn-primary">+ ახალი კითხვა</a>
+</div>
+
+<% if (questions.length === 0) { %>
+  <div class="card empty-state">
+    <div class="empty-icon">📭</div>
+    <p>კითხვები ჯერ არ არის. შექმენით პირველი კითხვა!</p>
+    <a href="/admin/questions/new" class="btn btn-primary">კითხვის შექმნა</a>
+  </div>
+<% } else { %>
+  <div class="questions-list">
+    <% questions.forEach((q, i) => { %>
+      <div class="card question-item">
+        <div class="question-header">
+          <span class="q-number">#<%= i + 1 %></span>
+          <p class="q-text"><%- q.question_text %></p>
+        </div>
+        <div class="question-meta">
+          <span>👤 <%= q.creator_name %></span>
+          <span>📋 <%= q.option_count %> ვარიანტი</span>
+          <span>📅 <%= new Date(q.created_at).toLocaleDateString('ka-GE') %></span>
+        </div>
+        <div class="question-actions">
+          <a href="/admin/questions/<%= q.id %>/edit" class="btn btn-secondary btn-sm">✏️ რედაქტირება</a>
+          <form method="POST" action="/admin/questions/<%= q.id %>/delete" style="display:inline" onsubmit="return confirm('ნამდვილად წაშლა?')">
+            <button type="submit" class="btn btn-danger btn-sm">🗑️ წაშლა</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<div class="back-link">
+  <a href="/admin">← ადმინ პანელი</a>
+</div>

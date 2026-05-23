@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>🗂️ პროფილის კითხვები</h1>
+</div>
+
+<div class="card form-card">
+  <h3>ახალი კითხვის დამატება</h3>
+  <form method="POST" action="/admin/profile-questions">
+    <div class="form-group">
+      <label>კითხვის ტექსტი</label>
+      <input type="text" name="question_text" placeholder="მაგ: სად ამჯობინებ მუშაობას?" required>
+    </div>
+    <div class="form-group">
+      <label>ვარიანტები (მინ. 2)</label>
+      <div id="pq-options">
+        <input type="text" name="options[]" placeholder="ვარიანტი 1" class="mb-1" required>
+        <input type="text" name="options[]" placeholder="ვარიანტი 2" class="mb-1" required>
+        <input type="text" name="options[]" placeholder="ვარიანტი 3 (სურვილისამებრ)" class="mb-1">
+        <input type="text" name="options[]" placeholder="ვარიანტი 4 (სურვილისამებრ)" class="mb-1">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">დამატება</button>
+  </form>
+</div>
+
+<div class="questions-list">
+  <% questions.forEach((q, i) => { %>
+    <div class="card question-item">
+      <div class="question-header">
+        <span class="q-number">#<%= i + 1 %></span>
+        <p class="q-text"><%= q.question_text %></p>
+      </div>
+      <div class="options-preview">
+        <% optionsMap[q.id].forEach(o => { %>
+          <span class="opt-chip"><%= o.option_text %></span>
+        <% }) %>
+      </div>
+      <div class="question-actions">
+        <form method="POST" action="/admin/profile-questions/<%= q.id %>/delete" onsubmit="return confirm('ნამდვილად წაშლა?')">
+          <button type="submit" class="btn btn-danger btn-sm">🗑️ წაშლა</button>
+        </form>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<div class="back-link">
+  <a href="/admin">← ადმინ პანელი</a>
+</div>

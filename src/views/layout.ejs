@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | ინგას რეპორტი</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <% if (session && session.userId) { %>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="/dashboard">🏆 ინგას რეპორტი</a>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard" class="nav-link">მთავარი</a>
+      <a href="/profile" class="nav-link">პროფილი</a>
+      <% if (session.role === 'admin') { %>
+        <a href="/admin" class="nav-link admin-link">ადმინი</a>
+      <% } %>
+      <a href="/auth/logout" class="nav-link logout">გამოსვლა</a>
+    </div>
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </nav>
+  <% } %>
+
+  <div class="container">
+    <% if (success && success.length > 0) { %>
+      <div class="alert alert-success"><%- success[0] %></div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+      <div class="alert alert-error"><%- error[0] %></div>
+    <% } %>
+
+    <%- body %>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

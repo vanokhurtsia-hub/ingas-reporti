@@ -1,0 +1,23 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">🏆</div>
+    <h1 class="auth-title">ინგას რეპორტი</h1>
+    <p class="auth-subtitle">შედით თქვენს ანგარიშში</p>
+
+    <form method="POST" action="/auth/login" class="auth-form">
+      <div class="form-group">
+        <label for="email">ელ-ფოსტა</label>
+        <input type="email" id="email" name="email" placeholder="თქვენი@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="password">პაროლი</label>
+        <input type="password" id="password" name="password" placeholder="••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">შესვლა</button>
+    </form>
+
+    <p class="auth-switch">
+      ანგარიში არ გაქვთ? <a href="/auth/register">დარეგისტრირდით</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h1><%= question ? '✏️ კითხვის რედაქტირება' : '➕ ახალი კითხვა' %></h1>
+</div>
+
+<form method="POST" action="<%= question ? '/admin/questions/' + question.id : '/admin/questions' %>" class="card form-card">
+
+  <div class="form-group">
+    <label for="question_text">კითხვის ტექსტი</label>
+    <textarea id="question_text" name="question_text" rows="3" placeholder="მაგ: რომელ ქალაქში გაიმართა 2024 წლის ოლიმპიური თამაშები?" required><%= question ? question.question_text : '' %></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>პასუხის ვარიანტები</label>
+    <p class="hint">მონიშნეთ სწორი პასუხი</p>
+
+    <div id="options-container">
+      <% const opts = options.length > 0 ? options : [{option_text:'',is_correct:0},{option_text:'',is_correct:0},{option_text:'',is_correct:0},{option_text:'',is_correct:0}]; %>
+      <% opts.forEach((opt, i) => { %>
+        <div class="option-row">
+          <input type="radio" name="correct_option" value="<%= i %>" <%= opt.is_correct ? 'checked' : '' %> title="სწორი პასუხი">
+          <input type="text" name="options[]" value="<%= opt.option_text %>" placeholder="ვარიანტი <%= i+1 %>" class="option-input">
+        </div>
+      <% }) %>
+    </div>
+
+    <button type="button" id="addOption" class="btn btn-secondary btn-sm" onclick="addOption()">+ ვარიანტის დამატება</button>
+  </div>
+
+  <div class="form-actions">
+    <a href="/admin/questions" class="btn btn-secondary">გაუქმება</a>
+    <button type="submit" class="btn btn-primary"><%= question ? 'შენახვა' : 'შექმნა' %></button>
+  </div>
+</form>
+
+<script>
+let optCount = document.querySelectorAll('.option-row').length;
+function addOption() {
+  if (optCount >= 6) return;
+  const container = document.getElementById('options-container');
+  const div = document.createElement('div');
+  div.className = 'option-row';
+  div.innerHTML = `<input type="radio" name="correct_option" value="${optCount}" title="სწორი პასუხი">
+    <input type="text" name="options[]" placeholder="ვარიანტი ${optCount+1}" class="option-input">`;
+  container.appendChild(div);
+  optCount++;
+}
+</script>

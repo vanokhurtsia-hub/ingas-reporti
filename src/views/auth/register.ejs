@@ -1,0 +1,31 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">🏆</div>
+    <h1 class="auth-title">ინგას რეპორტი</h1>
+    <p class="auth-subtitle">შექმენით ახალი ანგარიში</p>
+
+    <form method="POST" action="/auth/register" class="auth-form">
+      <div class="form-group">
+        <label for="name">სახელი და გვარი</label>
+        <input type="text" id="name" name="name" placeholder="ნინო კვარაცხელია" required>
+      </div>
+      <div class="form-group">
+        <label for="email">ელ-ფოსტა</label>
+        <input type="email" id="email" name="email" placeholder="თქვენი@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="password">პაროლი</label>
+        <input type="password" id="password" name="password" placeholder="მინ. 6 სიმბოლო" required>
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">პაროლის დადასტურება</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">რეგისტრაცია</button>
+    </form>
+
+    <p class="auth-switch">
+      უკვე გაქვთ ანგარიში? <a href="/auth/login">შედით</a>
+    </p>
+  </div>
+</div>

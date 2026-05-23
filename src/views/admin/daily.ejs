@@ -1,0 +1,45 @@
+<div class="page-header">
+  <h1>📅 დღის კითხვის მართვა</h1>
+</div>
+
+<% if (current) { %>
+<div class="card current-daily">
+  <div class="card-header">
+    <span class="card-icon">📌</span>
+    <h3>დღევანდელი კითხვა (<%= today %>)</h3>
+  </div>
+  <p class="question-text"><%- current.question_text %></p>
+</div>
+<% } %>
+
+<div class="card form-card">
+  <h3>კითხვის დაყენება</h3>
+  <form method="POST" action="/admin/daily">
+    <div class="form-group">
+      <label for="quiz_date">თარიღი</label>
+      <input type="date" id="quiz_date" name="quiz_date" value="<%= today %>" required>
+    </div>
+    <div class="form-group">
+      <label for="question_id">კითხვა</label>
+      <% if (questions.length === 0) { %>
+        <p class="hint">კითხვები არ არის. <a href="/admin/questions/new">შექმენით კითხვა</a></p>
+      <% } else { %>
+        <select name="question_id" id="question_id" required>
+          <option value="">-- აირჩიეთ კითხვა --</option>
+          <% questions.forEach(q => { %>
+            <option value="<%= q.id %>" <%= current && current.question_id === q.id ? 'selected' : '' %>>
+              <%= q.question_text.substring(0, 80) %><%= q.question_text.length > 80 ? '...' : '' %>
+            </option>
+          <% }) %>
+        </select>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">კითხვის დაყენება</button>
+        </div>
+      <% } %>
+    </div>
+  </form>
+</div>
+
+<div class="back-link">
+  <a href="/admin">← ადმინ პანელი</a>
+</div>

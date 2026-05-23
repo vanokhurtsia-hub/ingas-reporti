@@ -1,0 +1,53 @@
+<div class="page-header">
+  <h1>ჩემი პროფილი</h1>
+  <p>შეავსეთ თქვენი პირადი ინფორმაცია</p>
+</div>
+
+<form method="POST" action="/profile" class="profile-form card">
+  <div class="profile-section">
+    <h3>👤 ძირითადი ინფორმაცია</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>სახელი</label>
+        <input type="text" value="<%= user.name %>" disabled class="disabled-input">
+      </div>
+      <div class="form-group">
+        <label>ელ-ფოსტა</label>
+        <input type="email" value="<%= user.email %>" disabled class="disabled-input">
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-section">
+    <h3>🎨 საყვარელი ფერი</h3>
+    <div class="color-picker-group">
+      <input type="color" name="favorite_color" id="colorPicker" value="<%= user.favorite_color || '#4f46e5' %>">
+      <label for="colorPicker" class="color-label">აირჩიეთ ფერი</label>
+      <span id="colorValue"><%= user.favorite_color || '#4f46e5' %></span>
+    </div>
+  </div>
+
+  <div class="profile-section">
+    <h3>📋 პირადი კითხვარი</h3>
+    <div class="questions-grid">
+      <% questions.forEach(q => { %>
+        <div class="profile-question">
+          <p class="q-text"><%= q.question_text %></p>
+          <div class="radio-group">
+            <% optionsMap[q.id].forEach(opt => { %>
+              <label class="radio-option">
+                <input type="radio" name="q_<%= q.id %>" value="<%= opt.id %>"
+                  <%= answersMap[q.id] && answersMap[q.id].selected_option_id === opt.id ? 'checked' : '' %>>
+                <span><%= opt.option_text %></span>
+              </label>
+            <% }) %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">პროფილის შენახვა</button>
+  </div>
+</form>

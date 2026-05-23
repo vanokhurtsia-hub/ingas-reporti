@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>👥 მომხმარებლები</h1>
+</div>
+
+<div class="card">
+  <table class="results-table">
+    <thead>
+      <tr><th>#</th><th>სახელი</th><th>ელ-ფოსტა</th><th>როლი</th><th>რეგისტრაცია</th><th>მოქმედება</th></tr>
+    </thead>
+    <tbody>
+      <% users.forEach((u, i) => { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td>
+            <span class="role-badge role-<%= u.role %>">
+              <%= u.role === 'admin' ? '⚙️ ადმინი' : '👤 თანამშრომელი' %>
+            </span>
+          </td>
+          <td><%= new Date(u.created_at).toLocaleDateString('ka-GE') %></td>
+          <td>
+            <% if (u.id !== session.userId) { %>
+              <form method="POST" action="/admin/users/<%= u.id %>/role" style="display:inline">
+                <input type="hidden" name="role" value="<%= u.role === 'admin' ? 'employee' : 'admin' %>">
+                <button type="submit" class="btn btn-secondary btn-sm">
+                  <%= u.role === 'admin' ? '↓ ჩამოხსნა' : '↑ ადმინი' %>
+                </button>
+              </form>
+            <% } else { %>
+              <span class="hint">თქვენ</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="back-link">
+  <a href="/admin">← ადმინ პანელი</a>
+</div>

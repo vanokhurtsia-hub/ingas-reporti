@@ -1,0 +1,94 @@
+<div class="page-header">
+  <h1>📊 შედეგები</h1>
+  <p><%= today %></p>
+</div>
+
+<!-- Monthly ranking top -->
+<% if (monthlyRanking[0]) { %>
+<div class="card eom-banner">
+  <div class="eom-content">
+    <span class="eom-trophy">🏆</span>
+    <div>
+      <div class="eom-label">თვის საუკეთესო თანამშრომელი</div>
+      <div class="eom-name"><%= monthlyRanking[0].name %></div>
+      <div class="eom-points"><%= monthlyRanking[0].points %> ქულა • <%= monthlyRanking[0].answered %> კითხვაზე პასუხი</div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<div class="results-grid">
+
+  <!-- Today's results -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">📅</span>
+      <h3>დღეს გაცემული პასუხები</h3>
+    </div>
+    <% if (dailyResults.length === 0) { %>
+      <p class="empty-msg">ჯერ არ გაუცია პასუხი არავის</p>
+    <% } else { %>
+      <table class="results-table">
+        <thead>
+          <tr><th>თანამშრომელი</th><th>პასუხი</th><th>შედეგი</th></tr>
+        </thead>
+        <tbody>
+          <% dailyResults.forEach(r => { %>
+            <tr>
+              <td><%= r.name %></td>
+              <td><%= r.chosen %></td>
+              <td class="<%= r.is_correct ? 'correct' : 'wrong' %>"><%= r.is_correct ? '✅ სწორი' : '❌ არასწორი' %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+
+  <!-- Monthly ranking table -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-icon">🏅</span>
+      <h3>თვის რეიტინგი</h3>
+    </div>
+    <% if (monthlyRanking.length === 0) { %>
+      <p class="empty-msg">ამ თვეში ჯერ ქულები არ არის</p>
+    <% } else { %>
+      <table class="results-table">
+        <thead>
+          <tr><th>#</th><th>თანამშრომელი</th><th>ქულები</th><th>პასუხი</th></tr>
+        </thead>
+        <tbody>
+          <% monthlyRanking.forEach((r, i) => { %>
+            <tr class="<%= i === 0 ? 'rank-first' : '' %>">
+              <td><%= i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i+1 %></td>
+              <td><%= r.name %></td>
+              <td><strong><%= r.points %></strong></td>
+              <td><%= r.answered %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+
+</div>
+
+<!-- Who hasn't answered today -->
+<% if (unansweredToday.length > 0) { %>
+<div class="card">
+  <div class="card-header">
+    <span class="card-icon">⏳</span>
+    <h3>დღეს ჯერ არ უპასუხია (<%= unansweredToday.length %>)</h3>
+  </div>
+  <div class="unanswered-list">
+    <% unansweredToday.forEach(u => { %>
+      <span class="unanswered-badge"><%= u.name %></span>
+    <% }) %>
+  </div>
+</div>
+<% } %>
+
+<div class="back-link">
+  <a href="/admin">← ადმინ პანელი</a>
+</div>
